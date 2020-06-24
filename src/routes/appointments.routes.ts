@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { uuid } from 'uuidv4';
 
 const appointmentsRouter = Router();
 
@@ -8,6 +9,7 @@ appointmentsRouter.post('/', (request, response) => {
   const { provider, date } = request.body;
 
   const apppointment = {
+    id: uuid(),
     provider,
     date,
   };
