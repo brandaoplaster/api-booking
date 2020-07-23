@@ -1,11 +1,14 @@
 import 'reflect-metadata';
+
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
-import routes from './shared/infra/http/routes';
-import uploadconfig from './config/upload';
-import AppError from './shared/errors/AppError';
-import './shared/infra/database';
+
+import uploadconfig from '@config/upload';
+import AppError from '@shared/errors/AppError';
+import routes from '@shared/infra/http/routes';
+
+import '@shared/infra/typeorm';
 
 const app = express();
 app.use(cors({}));
@@ -32,5 +35,6 @@ app.get('/', (request, response) => {
 });
 
 app.listen(3333, () => {
+  // eslint-disable-next-line no-console
   console.log('Server started on port 3333!');
 });
