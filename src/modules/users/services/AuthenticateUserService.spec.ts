@@ -38,7 +38,7 @@ describe('AuthenticateUerService', () => {
   });
 
   it('should be able to authenticate with non existing user', async () => {
-    expect(
+    await expect(
       authenticateUser.execute({
         email: 'joe@gmail.com',
         password: '123456',
@@ -53,7 +53,7 @@ describe('AuthenticateUerService', () => {
       password: '123456',
     });
 
-    expect(
+    await expect(
       authenticateUser.execute({
         email: 'joe@gmail.com',
         password: '789654',
