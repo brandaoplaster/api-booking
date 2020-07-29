@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import User from '@modules/users/infra/typeorm/entities/user';
 
 interface IRequest {
@@ -10,7 +10,7 @@ interface IRequest {
 class ListProviderService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: UsersRepository,
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({ user_id }: IRequest): Promise<User[]> {
