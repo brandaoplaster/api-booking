@@ -3,6 +3,7 @@ import { isEqual, getMonth, getYear } from 'date-fns';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
 import Appointment from '../../infra/typeorm/entities/Appointment';
 
 class AppointmentsRepository implements IAppointmentsRepository {
@@ -36,6 +37,23 @@ class AppointmentsRepository implements IAppointmentsRepository {
       appointment =>
         appointment.user_id === user_id &&
         getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) + 1 === year,
+    );
+
+    return appointmentsProviders;
+  }
+
+  public async findAllInDayFromProvider({
+    user_id,
+    month,
+    day,
+    year,
+  }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
+    const appointmentsProviders = this.appointments.filter(
+      appointment =>
+        appointment.user_id === user_id &&
+        getMonth(appointment.date) + 1 === month &&
+        getMonth(appointment.date) === day &&
         getYear(appointment.date) + 1 === year,
     );
 
