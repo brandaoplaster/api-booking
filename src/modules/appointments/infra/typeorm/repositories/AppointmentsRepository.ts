@@ -22,53 +22,54 @@ class AppointmentsRepository implements IAppointmentsRepository {
   }
 
   public async create({
-    user_id,
+    provider_id,
     date,
   }: ICreateAppointmentDTO): Promise<Appointment> {
-    const appointment = this.ormRepository.create({ user_id, date });
+    const appointment = this.ormRepository.create({
+      provider_id,
+      date,
+    });
     await this.ormRepository.save(appointment);
+
     return appointment;
   }
 
   public async findAllInMonthFromProvider({
-    user_id,
+    provider_id,
     month,
     year,
   }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
-    const parseMonth = String(month).padStart(2, '0');
-    const appointmentsProviders = await this.ormRepository.find({
+    const parsedMonth = String(month).padStart(2, '0');
+    const appointments = await this.ormRepository.find({
       where: {
-        user_id,
+        provider_id,
         date: Raw(
           dateFieldName =>
-            `to_char(${dateFieldName}, 'MM-YYYY') = '${parseMonth}-${year}'`,
+            `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
         ),
       },
     });
-
-    return appointmentsProviders;
+    return appointments;
   }
 
   public async findAllInDayFromProvider({
-    user_id,
-    month,
+    provider_id,
     day,
+    month,
     year,
   }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
-    const parseMonth = String(month).padStart(2, '0');
-    const parseDay = String(day).padStart(2, '0');
-
-    const appointmentsProviders = await this.ormRepository.find({
+    const parsedMonth = String(month).padStart(2, '0');
+    const parsedDay = String(day).padStart(2, '0');
+    const appointments = await this.ormRepository.find({
       where: {
-        user_id,
+        provider_id,
         date: Raw(
           dateFieldName =>
-            `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parseDay}-${parseMonth}-${year}'`,
+            `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
     });
-
-    return appointmentsProviders;
+    return appointments;
   }
 }
 
