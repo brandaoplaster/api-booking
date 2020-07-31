@@ -11,5 +11,16 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_PASSWORD: 'postgres'
 
+  mongodb:
+    image: mongo
+    volumes:
+      - 'mongodb:/var/lib/mongodb/data'
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+
 volumes:
   postgres:
+  mongodb:
