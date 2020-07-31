@@ -1,38 +1,39 @@
-// import AppError from '@shared/errors/AppError';
-import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
-import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
+import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/FakeAppointmentsRepository';
+import ListProviderDayAvailabilityService from '@modules/appointments/services/ListProviderDayAvailabilityService';
 
-let fakeAppointmentsReposioty: FakeAppointmentsRepository;
-let listProviderDayAvailable: ListProviderDayAvailabilityService;
+let listProviderDayAvailability: ListProviderDayAvailabilityService;
+let fakeAppointmentsRepository: FakeAppointmentsRepository;
 
-describe('ListDayAvailabilityService', () => {
+describe('ListProviderDayAvailabilityService', () => {
   beforeEach(() => {
-    fakeAppointmentsReposioty = new FakeAppointmentsRepository();
-    listProviderDayAvailable = new ListProviderDayAvailabilityService(
-      fakeAppointmentsReposioty,
+    fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    listProviderDayAvailability = new ListProviderDayAvailabilityService(
+      fakeAppointmentsRepository,
     );
   });
 
-  it('should be able to list the day availability from provider ', async () => {
-    await fakeAppointmentsReposioty.create({
-      provider_id: '12we',
-      date: new Date(2020, 7, 30, 14, 0, 0),
+  it('should be able to list the day availability from provider', async () => {
+    await fakeAppointmentsRepository.create({
+      provider_id: '99',
+      user_id: '1',
+      date: new Date(2020, 4, 20, 14, 0, 0),
     });
 
-    await fakeAppointmentsReposioty.create({
-      provider_id: '12we',
-      date: new Date(2020, 7, 30, 17, 0, 0),
+    await fakeAppointmentsRepository.create({
+      provider_id: '99',
+      user_id: '1',
+      date: new Date(2020, 4, 20, 15, 0, 0),
     });
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       return new Date(2020, 4, 20, 11).getTime();
     });
 
-    const availability = listProviderDayAvailable.execute({
-      provider_id: '12we',
+    const availability = await listProviderDayAvailability.execute({
+      provider_id: '99',
+      day: 20,
       year: 2020,
-      day: 30,
-      month: 7,
+      month: 5,
     });
 
     expect(availability).toEqual(
@@ -40,9 +41,11 @@ describe('ListDayAvailabilityService', () => {
         { hour: 8, available: false },
         { hour: 9, available: false },
         { hour: 10, available: false },
+        { hour: 11, available: false },
+        { hour: 13, available: true },
         { hour: 14, available: false },
-        { hour: 15, available: true },
-        { hour: 17, available: false },
+        { hour: 15, available: false },
+        { hour: 16, available: true },
       ]),
     );
   });
