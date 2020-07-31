@@ -3,7 +3,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
 
-import User from '@modules/users/infra/typeorm/entities/user';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
