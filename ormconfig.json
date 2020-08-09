@@ -16,10 +16,10 @@
   {
     "name": "mongo",
     "type": "mongodb",
-    "host": "mongodb",
+    "host": "localhost",
     "port": 27017,
-    "username": "mongodb",
-    "password": "mongodb",
+    "username": "",
+    "password": "",
     "database": "gobarber",
     "useUnifiedTopology": true,
     "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]

@@ -17,9 +17,6 @@ services:
       - 'mongodb:/var/lib/mongodb/data'
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongodb
-      MONGO_INITDB_ROOT_PASSWORD: mongodb
 
   redis:
     image: 'redis:3.2-alpine'
